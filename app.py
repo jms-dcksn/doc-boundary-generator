@@ -10,17 +10,8 @@ from pytesseract import Output
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
 upload_folder = os.path.join('static', 'uploads')
 app.config['UPLOAD'] = upload_folder
-
-# create datatable
-# class Upload(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     filename = db.Column(db.String(50))
-#     data = db.Column(db.LargeBinary)
 
 #Draw boundary boxes on file
 def drawFile(file, name):
