@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="James Dickson">
+<meta name="generator" content="Hugo 0.88.1">
+<title>OCR Boundary Box Generator</title>
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/assets/css/custom.css">
+<body>
+    <div class="p-3 mb-2 bg-light text-dark">
+	<div class="container">
+		<h1> A super cool utility to create boundary boxes based on OCR detection </h1>
+        <hr>
+        <div>
+            <div>
+                <p>Choose a file and click submit!</p>
+            </div>
+		    <form method="POST" action="/" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <input class="form-control" type="file" name="file">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+		    </form>
+        </div>
+    </div>
+    <div class="container">
+        {% if img %}
+        <h3>Rendered Image</h3>
+        <h3 id="fileName">{{filename}}</h3>
+        <div>
+            <h5>Click here to download</h5>
+            <a href="/download/{{filename}}" class="btn btn-primary">Download</a>
+        </div>
+        <img src="{{img}}" class="img-fluid">
+        {% else %}
+        <div>Image will be render below</div>
+        {% endif %}
+    </div>
+	<!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+</body>
+</html>
