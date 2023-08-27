@@ -27,7 +27,7 @@ def drawFile(file, name):
             (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
             img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
     outputFileName = secure_filename('output-'+name)
-    outputFile = os.path.join(app.config['UPLOAD'], outputFileName)
+    outputFile = os.path.join(app.root_path, app.config['UPLOAD'], outputFileName)
     cv2.imwrite(outputFile, img)
     return outputFile
 
