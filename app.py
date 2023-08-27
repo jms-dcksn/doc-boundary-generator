@@ -10,7 +10,9 @@ from pytesseract import Output
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+pythonAnywhereDir = '/home/salientautomation/doc-boundary-generator'
 upload_folder = os.path.join('static', 'uploads')
+#print(upload_folder)
 app.config['UPLOAD'] = upload_folder
 
 #Draw boundary boxes on file
@@ -35,8 +37,8 @@ def index():
     if request.method == 'POST':
         file = request.files['file']
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD'], filename))
-        img = os.path.join(app.config['UPLOAD'], filename)
+        file.save(os.path.join(app.root_path, app.config['UPLOAD'], filename))
+        img = os.path.join(app.root_path, app.config['UPLOAD'], filename)
         outputFile = drawFile(img, filename)
         outputFileName = 'output-'+filename
         return render_template('index.html', img=outputFile, filename=outputFileName)
