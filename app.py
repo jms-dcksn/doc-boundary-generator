@@ -15,6 +15,8 @@ upload_folder = os.path.join('static', 'uploads')
 #print(upload_folder)
 app.config['UPLOAD'] = upload_folder
 
+supported_files = ['.png', '.jpg', '.jpeg', '.tiff']
+
 #Draw boundary boxes on file
 def drawFile(file, name):
     img = cv2.imread(file)
@@ -27,7 +29,7 @@ def drawFile(file, name):
             (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
             img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
     outputFileName = secure_filename('output-'+name)
-    outputFile = os.path.join(app.root_path, app.config['UPLOAD'], outputFileName)
+    outputFile = os.path.join(app.config['UPLOAD'], outputFileName)
     cv2.imwrite(outputFile, img)
     return outputFile
 
@@ -37,12 +39,17 @@ def index():
     if request.method == 'POST':
         file = request.files['file']
         filename = secure_filename(file.filename)
+        extension = os.path.splitext(filename)[1]
+        print(extension)
+        #heck for file type
+        if (extension not in supported_files): return render_template('index.html', message='That file type is not supported')
+        #end check
         file.save(os.path.join(app.root_path, app.config['UPLOAD'], filename))
         img = os.path.join(app.root_path, app.config['UPLOAD'], filename)
         outputFile = drawFile(img, filename)
         outputFileName = 'output-'+filename
         return render_template('index.html', img=outputFile, filename=outputFileName)
-    return render_template('index.html')
+    return render_template('index.html', message='Image will render below')
 
 # create download function for download files
 @app.route('/download/<path:filename>', methods=['GET', 'POST'])
