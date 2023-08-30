@@ -1,18 +1,14 @@
 import os
-from io import BytesIO
 
 import cv2
 import pytesseract
-from flask import (Flask, render_template, request, send_file,
-                   send_from_directory)
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, send_from_directory
 from pytesseract import Output
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 pythonAnywhereDir = '/home/salientautomation/doc-boundary-generator'
 upload_folder = os.path.join('static', 'uploads')
-#print(upload_folder)
 app.config['UPLOAD'] = upload_folder
 
 supported_files = ['.png', '.jpg', '.jpeg', '.tiff']
@@ -22,7 +18,6 @@ def drawFile(file, name):
     img = cv2.imread(file)
     h, w, c = img.shape
     d = pytesseract.image_to_data(img, output_type=Output.DICT)
-    # print(d.keys())
     n_boxes = len(d['text'])
     for i in range(n_boxes):
         if int(d['conf'][i]) > 60:
